@@ -4,6 +4,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import '../providers/app_providers.dart';
 import '../services/document_processing_service.dart';
+import 'resume_preview_screen.dart';
 import 'ai_chat_screen.dart';
 import 'profile_screen.dart';
 import 'job_recommendations_screen.dart';
@@ -14,7 +15,7 @@ class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
@@ -139,7 +140,6 @@ class _HomeTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileProvider);
     final loadingState = ref.watch(loadingStateProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -168,7 +168,7 @@ class _HomeTab extends ConsumerWidget {
           children: [
             _buildWelcomeCard(context, userProfile),
             const SizedBox(height: 24),
-            _buildQuickActions(context, ref, loadingState),
+            _buildQuickActions(context, ref, loadingState, userProfile),
             const SizedBox(height: 24),
             _buildAIFeatures(context),
             const SizedBox(height: 24),
@@ -225,6 +225,7 @@ class _HomeTab extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     Map<String, bool> loadingState,
+    dynamic userProfile,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -279,6 +280,31 @@ class _HomeTab extends ConsumerWidget {
                   Icons.description,
                   'Create a new resume',
                   () => _navigateToResumeBuilder(context),
+                ),
+                _buildActionCard(
+                  context,
+                  'Preview Resume',
+                  Icons.picture_as_pdf,
+                  'View your resume PDF',
+                  () {
+                    if (userProfile == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'No user profile found. Please upload or create a resume first.',
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ResumePreviewScreen(userProfile: userProfile),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

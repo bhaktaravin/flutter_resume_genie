@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:file_picker/file_picker.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import '../models/user_profile.dart';
@@ -55,17 +56,9 @@ class DocumentProcessingService {
       // Load the PDF document
       PdfDocument document = PdfDocument(inputBytes: bytes);
 
-      // Extract text from all pages
-      String extractedText = '';
-      for (int i = 0; i < document.pages.count; i++) {
-        PdfPage page = document.pages[i];
-        extractedText += PdfTextExtractor.extractText(page);
-        extractedText += '\n'; // Add line break between pages
-      }
-
-      // Dispose the document
+      // Extract text from the entire document
+      String extractedText = PdfTextExtractor(document).extractText();
       document.dispose();
-
       return extractedText.trim();
     } catch (e) {
       throw Exception('Failed to extract text from PDF: $e');
