@@ -4,12 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'screens/home_screen.dart';
+import 'providers/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Load environment variables
   await dotenv.load(fileName: ".env");
+  print(
+    'Loaded GROQ_API_KEY: \\${dotenv.env['GROQ_API_KEY']}',
+  ); // DEBUG: Print loaded key
 
   // Initialize Hive
   await Hive.initFlutter();
@@ -21,11 +25,12 @@ void main() async {
   runApp(const ProviderScope(child: ResumeGenieApp()));
 }
 
-class ResumeGenieApp extends StatelessWidget {
+class ResumeGenieApp extends ConsumerWidget {
   const ResumeGenieApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeModeProvider);
     return MaterialApp(
       title: 'ResumeGenie - AI-Powered Career Assistant',
       debugShowCheckedModeBanner: false,
@@ -67,7 +72,7 @@ class ResumeGenieApp extends StatelessWidget {
           ),
         ),
       ),
-      themeMode: ThemeMode.system,
+      themeMode: themeMode,
       home: const HomeScreen(),
     );
   }

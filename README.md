@@ -4,6 +4,8 @@
 
 ResumeGenie is a comprehensive Flutter mobile application that showcases advanced AI capabilities for career development. Built as a portfolio project to demonstrate modern mobile development skills and AI integration.
 
+> **Note:** This app is for educational and portfolio demonstration purposes only. It is not intended for commercial or production use.
+
 ## ✨ Features
 
 ### 🤖 AI-Powered Core Features
@@ -13,7 +15,14 @@ ResumeGenie is a comprehensive Flutter mobile application that showcases advance
 - **Intelligent Cover Letter Generation**: Create personalized cover letters for specific positions
 - **Skill Gap Analysis**: Identify missing skills and get learning recommendations
 
-### 📱 Technical Highlights
+### ⚙️ App Settings & UI
+- **Light/Dark Mode**: Toggle between light, dark, and system themes
+- **Settings Dialog**: Access About, Support, Privacy Notice, and Theme options
+
+### 🖼️ Screenshots
+<!-- Add screenshots or GIFs here for portfolio/demo -->
+
+## 📱 Technical Highlights
 - **Cross-Platform**: Built with Flutter for iOS and Android
 - **Modern UI**: Material Design 3 with dark/light theme support
 - **State Management**: Riverpod for reactive, scalable state management
@@ -68,6 +77,23 @@ cp .env.example .env
 ```bash
 flutter run
 ```
+
+## 🛡️ Privacy Notice
+
+ResumeGenie processes your resume and chat data locally and via secure AI APIs. No personal data is sold or shared with third parties. You may clear your data at any time from the app settings. For questions, contact support@resumegenie.app.
+
+## 🧩 Troubleshooting
+
+- **API Key Not Working?**
+  - Make sure your `.env` file is in the project root and contains `GROQ_API_KEY=your_key` (no spaces).
+  - Fully stop and restart the app after editing `.env`.
+  - If you see "Access denied" or 403 errors, your key may be invalid or revoked—generate a new one from Groq.
+- **.env Not Loading?**
+  - Ensure you are not running on Flutter web (env files are not supported on web).
+  - Check for typos in the filename: it must be `.env` (not `.env.txt`).
+- **Other Issues?**
+  - Check the debug console for error messages.
+  - See the in-app Privacy Notice and Support options in Settings.
 
 ## 📁 Project Structure
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/app_providers.dart';
+// ...existing code...
 
 class ResumeBuilderScreen extends ConsumerWidget {
   const ResumeBuilderScreen({super.key});

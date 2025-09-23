@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/ai_models.dart';
 import '../providers/app_providers.dart';
+import '../services/groq_service.dart';
 import '../widgets/chat_message_widget.dart';
 import '../widgets/typing_indicator.dart';
 
@@ -178,10 +179,13 @@ What would you like to discuss today?''',
   }
 
   Future<void> _sendMessage(String text) async {
+    print('DEBUG: _sendMessage called with text: $text');
+    print('DEBUG: GroqService.isConfigured: ${GroqService.isConfigured}');
+    print('DEBUG: GROQ_API_KEY: ${dotenv.env['GROQ_API_KEY']}');
+    final groqService = ref.read(groqServiceProvider);
     if (text.trim().isEmpty) return;
 
     final chatNotifier = ref.read(chatMessagesProvider.notifier);
-    final groqService = ref.read(groqServiceProvider);
     final userProfile = ref.read(userProfileProvider);
     final chatMessages = ref.read(chatMessagesProvider);
 
@@ -221,7 +225,10 @@ What would you like to discuss today?''',
       );
 
       chatNotifier.addMessage(aiMessage);
-    } catch (e) {
+    } catch (e, stack) {
+      print('DEBUG: Error in _sendMessage:');
+      print(e);
+      print(stack);
       // Add error message
       final errorMessage = ChatMessage(
         id: DateTime.now().millisecondsSinceEpoch.toString(),

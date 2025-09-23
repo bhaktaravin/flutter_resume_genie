@@ -87,7 +87,10 @@ Extract as much information as possible. If a field is not found, set it to null
 
       final jsonData = json.decode(response);
       return UserProfile.fromJson(jsonData);
-    } catch (e) {
+    } catch (e, stack) {
+      print('GroqService.parseResumeText error:');
+      print(e);
+      print(stack);
       throw Exception('Failed to parse resume: $e');
     }
   }
