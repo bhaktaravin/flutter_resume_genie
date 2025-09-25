@@ -1,0 +1,14 @@
+default_platform(:android)
+
+platform :android do
+  desc "Build a release APK"
+  lane :build do
+    gradle(task: "assembleRelease")
+  end
+
+  desc "Build and sign APK, then upload to Play Store (requires setup)"
+  lane :release do
+    gradle(task: "assembleRelease")
+    # supply(track: "production") # Uncomment and configure for Play Store upload
+  end
+end
